@@ -14,5 +14,5 @@
 
 // Prints the free blocks in a formatted listing to a give file
 void print_heap(FILE * f) {
-    return;
+
 }

@@ -14,5 +14,5 @@
 // Check for possible problems with the free list. Make sure the free list
 // has the correct properties. Return silently if no errors.
 void check_heap() {
-    return;
+
 }

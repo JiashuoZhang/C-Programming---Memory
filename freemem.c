@@ -16,5 +16,5 @@
 
 // Return the given block memory back to the free list
 void freemem(void* p) {
-    return;
+    return NULL;
 }

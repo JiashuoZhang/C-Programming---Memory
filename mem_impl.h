@@ -2,7 +2,7 @@
  * CSE374 Winter 2017
  * Homework 6 Memory Management
  * Josh(Jiashuo) Zhang 1365330
- * Ethan Kim 
+ * Ethan(Chihio) Kim 0963203 
  * Feb 20, 2017
  * Header file for internal functions for memory manager.
  * The functions included in this file are not public functions 

@@ -1,5 +1,6 @@
 # CSE 374 17wi HW5
 # Josh(Jiashuo) Zhang 1365330
+# Ethan(Chiho) Kim 0963203
 # Feb 15, 2017
 # Makefile for t9 program
 

@@ -2,7 +2,7 @@
  * CSE374 Winter 2017
  * Homework 6 Memory Management
  * Josh(Jiashuo) Zhang 1365330
- * Ethan Kim 
+ * Ethan(Chiho) Kim 
  * Feb 20, 2017
  * Implementation of function check_heap and other utility functions
  * needed for the memory manager.

@@ -2,7 +2,7 @@
  * CSE374 Winter 2017
  * Homework 6 Memory Management
  * Josh(Jiashuo) Zhang 1365330
- * Ethan Kim 
+ * Ethan(Chiho) Kim 0963203 
  * Feb 20, 2017
  * Implementation of function print_heap
  * The function prints a formatted listing to a given file showing

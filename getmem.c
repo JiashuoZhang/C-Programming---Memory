@@ -2,7 +2,7 @@
  * CSE374 Winter 2017
  * Homework 6 Memory Management
  * Josh(Jiashuo) Zhang 1365330
- * Ethan Kim 
+ * Ethan(Chiho) Kim 0963203 
  * Feb 20, 2017
  * Implementation of function getmem
  * The program returns a pointer to a block of memory with at least size of user

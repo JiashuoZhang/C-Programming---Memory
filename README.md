@@ -1,5 +1,5 @@
 Josh(Jiashuo) Zhang
-Ethan Kim
+Ethan(Chiho) Kim
 Group: bs
 Work Breakdown:
 Data Structure and Algorithm:

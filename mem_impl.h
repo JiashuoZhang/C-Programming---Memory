@@ -12,7 +12,14 @@
 #ifndef MEM_IMPL_H
 #define MEM_IMPL_H
 
+typedef struct FreeList {
+    uintptr_t size;
+    struct FreeList* next;
+} FreeBlock;
 // Check errors for free list structure
+
+FreeBlock* freeList; // The head of free list, null if empty
+
 void check_heap();
 
 #endif

@@ -31,4 +31,4 @@ mem_utils.o: mem_utils.c mem_impl.h
 	$(CC) -c mem_utils.c
 
 clean:
-	rm -f *.o bench *~
+	rm -f *.o bench

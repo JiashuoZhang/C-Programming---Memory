@@ -7,16 +7,13 @@
 CC = gcc -Wall -g -std=c11
 MEMO = getmem.o freemem.o get_mem_stats.o print_heap.o
 
-all: bench functions
+all: bench
 
 bench: bench.o $(MEMO)
 	$(CC) -o bench bench.c $(MEMO)
 
-functions: $(MEMO)
-	$(CC) -o functions $(MEMO)
-
 bench.o: bench.c mem.h
-	$(CC) -o bench.o bench.c
+	$(CC) -c bench.c
 
 getmem.o: getmem.c mem.h mem_impl.h
 	$(CC) -c getmem.c

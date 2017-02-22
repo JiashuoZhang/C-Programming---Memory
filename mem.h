@@ -10,8 +10,6 @@
 
 #ifndef MEM_H
 #define MEM_H
-#include <stdint.h>
-#include <stdio.h>
 
 // Return pointer to a memory block with at least size of user request size
 void* getmem(uintptr_t size);

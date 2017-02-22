@@ -11,7 +11,9 @@
  * undefined if the pointer given is invalid.
  */
 
-#include "mem.h"
+#include <stdint.h>
+#include <stdio.h>
+
 #include "mem_impl.h"
 
 // Return the given block memory back to the free list

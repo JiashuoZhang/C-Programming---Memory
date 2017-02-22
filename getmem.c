@@ -10,7 +10,9 @@
  * blocks allocated by this program are 16-byte aligned in address boundary.
  */
 
-#include "mem.h"
+#include <stdint.h>
+#include <stdio.h>
+
 #include "mem_impl.h"
 
 // Return pointer to a memory block with at least size of given parameter

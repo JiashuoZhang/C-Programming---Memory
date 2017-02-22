@@ -10,7 +10,10 @@
  * of the block. Could add more describing features.
  */
 
-#include "mem.h"
+#include <stdint.h>
+#include <stdio.h>
+
+#include "mem_impl.h"
 
 // Prints the free blocks in a formatted listing to a give file
 void print_heap(FILE * f) {

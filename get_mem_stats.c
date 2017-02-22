@@ -10,7 +10,10 @@
  * of free memory available in bytes, and the amount of free blocks are stored.
  */
 
-#include "mem.h"
+#include <stdint.h>
+#include <stdio.h>
+
+#include "mem_impl.h"
 
 // Store the statics information of the memory manager
 void get_mem_stats(uintptr_t* total_size, uintptr_t* total_free, uintptr_t* n_free_blocks) {

@@ -10,7 +10,7 @@ MEMO = getmem.o freemem.o get_mem_stats.o print_heap.o
 all: bench functions
 
 bench: bench.o $(MEMO)
-	$(CC) -o bench bench.o $(MEMO)
+	$(CC) -o bench bench.c $(MEMO)
 
 functions: $(MEMO)
 	$(CC) -o functions $(MEMO)

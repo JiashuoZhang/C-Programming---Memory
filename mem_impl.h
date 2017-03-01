@@ -12,11 +12,18 @@
 #ifndef MEM_IMPL_H
 #define MEM_IMPL_H
 
+#define HEADER_SIZE 16 // Header size
+#define REQ_SIZE 8000 // Default request size from operating system
+#define TH 128 // Threshold of remainder
+
+int totalSize;
+
 typedef struct FreeList {
     uintptr_t size;
     struct FreeList* next;
 } FreeBlock;
 // Check errors for free list structure
+
 
 FreeBlock* freeList; // The head of free list, null if empty
 

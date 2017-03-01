@@ -16,6 +16,13 @@
 #include "mem_impl.h"
 
 // Prints the free blocks in a formatted listing to a give file
-void print_heap(FILE * f) {
+void print_heap() {
+    FreeBlock* temp = freeList;
+    int num = 1;
 
+    while (temp) {
+        printf("%lu %lu ", temp, temp->size);
+        printf("%lu %lu\n", temp->next, num++);
+        temp = temp->next;
+    }
 }

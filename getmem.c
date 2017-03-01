@@ -21,13 +21,18 @@ FreeBlock* split(FreeBlock* block, uintptr_t size);
 
 // Return pointer to a memory block with at least size of given parameter
 void* getmem(uintptr_t size) {
+    check_heap();
     if (size <= 0) {
         return NULL;
     }
 
+    uintptr_t returnAddress = 0;
+
     // Make sure multiple of 16 in size including the header
     uintptr_t realSize = size + HEADER_SIZE;
     uintptr_t alignSize = realSize % 16 ? (1 + realSize / 16) * 16 : realSize;
+
+    alignSize = alignSize < TH ? TH : alignSize;
 
     FreeBlock* current;
     if (!freeList) {
@@ -35,7 +40,8 @@ void* getmem(uintptr_t size) {
             current = (FreeBlock*)malloc(alignSize); // Get larger chunk from OS
             current->size = alignSize;
             current->next = NULL;
-            return (void*)((uintptr_t)current + HEADER_SIZE);
+            totalSize += alignSize;
+            returnAddress = ((uintptr_t)current + HEADER_SIZE);
         } else {
             // Get 8K bytes memory from OS
             current = (FreeBlock*)malloc(REQ_SIZE); 
@@ -43,7 +49,8 @@ void* getmem(uintptr_t size) {
             current->next = NULL;
             // Split block if necessary
             freeList = split(current, alignSize);
-            return (void*)((uintptr_t)current + HEADER_SIZE);
+            totalSize += REQ_SIZE;
+            returnAddress = ((uintptr_t)current + HEADER_SIZE);
         }
     } else {
         current = freeList;
@@ -51,7 +58,8 @@ void* getmem(uintptr_t size) {
         if (freeList->size >= alignSize) {
 
             freeList = split(freeList, alignSize);
-            return (void*)((uintptr_t)current + HEADER_SIZE);
+            returnAddress = ((uintptr_t)current + HEADER_SIZE);
+            goto END;
         }
         
         // Loop through free list to find block
@@ -61,46 +69,53 @@ void* getmem(uintptr_t size) {
             }
             current = current->next;
         }
-        // Fail to find a block big enough
+        // Fail to find a block big enough, need a new block
         if (!current->next) {
-            
-            if (alignSize > REQ_SIZE) { // Default size not big enough
+            // Default size not big enough, request a larger chunk
+            if (alignSize > REQ_SIZE) { 
                 current = (FreeBlock*)malloc(alignSize);
                 current->size = alignSize;
                 current->next = NULL;
-                return (void*)((uintptr_t)current + HEADER_SIZE);
-            } else {                    // Default size big enough
+                totalSize += alignSize;
+                returnAddress = ((uintptr_t)current + HEADER_SIZE);
+            // Default size big enough, split as needed
+            } else {                    
                 current = (FreeBlock*)malloc(REQ_SIZE);
                 current->size = REQ_SIZE;
                 current->next = NULL;
+                totalSize += REQ_SIZE;
                 FreeBlock* remainder = split(current, alignSize);
                 
+                // Did not split
                 if (!remainder) {
-                    return (void*)((uintptr_t)current + HEADER_SIZE);
+                    returnAddress = ((uintptr_t)current + HEADER_SIZE);
+                // Insert the remainder block to the front
                 } else if (remainder < freeList || !freeList) {
                     remainder->next = freeList;
                     freeList = remainder;
-                    return (void*)((uintptr_t)current + HEADER_SIZE);
+                    returnAddress = ((uintptr_t)current + HEADER_SIZE);
+                // Insert the remainder block to the right position
                 } else {
                     FreeBlock* temp = freeList;
-                    // Find the correct position to insert
+                    // Look for correct position to insert
                     while (temp->next && remainder > temp->next) {
                         temp = temp->next;
                     }
                     // Insert
                     remainder->next = temp->next;
                     temp->next = remainder;
-                    return (void*)((uintptr_t)current + HEADER_SIZE);
+                    returnAddress = ((uintptr_t)current + HEADER_SIZE);
                 }
             }
         } else { // Found a good size block in free list
             FreeBlock* temp = current->next;
             current->next = split(current->next, alignSize);
-            return (void*)((uintptr_t)temp + HEADER_SIZE);
+            returnAddress = ((uintptr_t)temp + HEADER_SIZE);
         }
     }
-
-    return NULL;
+    END:
+    check_heap();
+    return (void*)returnAddress;
 }
 
 FreeBlock* split(FreeBlock* block, uintptr_t size) {

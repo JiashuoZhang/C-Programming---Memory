@@ -17,5 +17,14 @@
 
 // Store the statics information of the memory manager
 void get_mem_stats(uintptr_t* total_size, uintptr_t* total_free, uintptr_t* n_free_blocks) {
+    *total_size = totalSize;
 
+    *total_free = 0;
+    *n_free_blocks = 0;
+    FreeBlock* temp = freeList;
+    while (temp) {
+        *total_free += temp->size;
+        *n_free_blocks += 1;
+        temp = temp->next;
+    }
 }

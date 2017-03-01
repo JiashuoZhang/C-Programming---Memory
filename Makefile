@@ -5,7 +5,7 @@
 # Makefile for t9 program
 
 CC = gcc -Wall -g -std=c11
-MEMO = getmem.o freemem.o get_mem_stats.o print_heap.o
+MEMO = getmem.o freemem.o get_mem_stats.o print_heap.o mem_utils.o
 
 all: bench
 
@@ -31,4 +31,4 @@ mem_utils.o: mem_utils.c mem_impl.h
 	$(CC) -c mem_utils.c
 
 clean:
-	rm -f *.o bench
+	rm -f *.o bench *~

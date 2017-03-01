@@ -8,11 +8,28 @@
  * needed for the memory manager.
  * See comment for each specific function in details.
  */
-
+#include <stdint.h>
+#include <assert.h>
+#include <stdio.h>
 #include "mem_impl.h"
 
 // Check for possible problems with the free list. Make sure the free list
 // has the correct properties. Return silently if no errors.
 void check_heap() {
     
+    FreeBlock* temp = freeList;
+    uintptr_t prevAddr = 0;
+    if (!temp) return;
+    // Check the blocks except the first one if there exists any
+    while (temp->next) {
+        assert(prevAddr < (uintptr_t)temp);
+        assert(temp->size > 0);
+        assert(temp->size >= TH);
+        assert(((uintptr_t)temp + temp->size) < (uintptr_t)temp->next);
+        prevAddr = (uintptr_t)temp;
+        temp = temp->next;
+    }
+    // Check the last block
+    assert(temp->size > 0);
+    assert((uintptr_t)temp->next == 0);
 }

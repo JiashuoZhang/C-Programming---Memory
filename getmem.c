@@ -41,8 +41,7 @@ void* getmem(uintptr_t size) {
 	current = create(current, alignSize); // Get larger chunk from OS
       } else {
 	current = create(current, REQ_SIZE); // Get 8K bytes memory from OS
-	// Split block if necessary
-	freeList = split(current, alignSize);
+	freeList = split(current, alignSize); // Split block if necessary
       }
       returnAddress = ((uintptr_t)current + HEADER_SIZE);
     } else {

@@ -47,7 +47,8 @@ void* getmem(uintptr_t size) {
             current = (FreeBlock*)malloc(REQ_SIZE); 
             current->size = REQ_SIZE;
             current->next = NULL;
-            freeList = split(current, alignSize); // Split block if necessary
+            // Split block if necessary
+            freeList = split(current, alignSize);
             totalSize += REQ_SIZE;
             returnAddress = ((uintptr_t)current + HEADER_SIZE);
         }
@@ -109,6 +110,7 @@ void* getmem(uintptr_t size) {
         } else { // Found a good size block in free list
             FreeBlock* temp = current->next;
             current->next = split(current->next, alignSize);
+            
             returnAddress = ((uintptr_t)temp + HEADER_SIZE);
         }
     }
@@ -122,9 +124,11 @@ FreeBlock* split(FreeBlock* block, uintptr_t size) {
     if (block->size - size >= TH) {
         FreeBlock* current = block;
         // Set header for remaining block
+
         block = (FreeBlock*)((uintptr_t)current + size);
         block->size = current->size - size;
         block->next = current->next;
+
         // Set current block ready for client
         current->size = size;
         current->next = NULL;

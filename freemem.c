@@ -25,7 +25,6 @@ void freemem(void* p) {
 
     FreeBlock* pHead = (FreeBlock*)((uintptr_t)p - HEADER_SIZE);
     FreeBlock* temp = freeList;
-
     uintptr_t endAddress = (uintptr_t)pHead + pHead->size;
     
     // FreeList null, insert it anyways
@@ -61,6 +60,7 @@ void freemem(void* p) {
     // Find the correct position to insert block
     while (temp->next) {
         uintptr_t prevEnd = (uintptr_t)temp->next + temp->next->size;
+
         // Merge with preceding and following block
         if ((uintptr_t)pHead == prevEnd && endAddress == (uintptr_t)temp->next->next) {
             temp->next->size = temp->next->size + pHead->size + temp->next->next->size;
@@ -77,12 +77,11 @@ void freemem(void* p) {
             temp->next = pHead;
             goto END;
         // Current address to big, continue searching
-        } else if (pHead > temp->next) {
-            temp = temp->next;
         // Current block needs to be inserted here, stop searching
         } else if (pHead < temp->next) {
             break;
         }
+        temp = temp->next;
         
     }
     // Simply insert it, no merge

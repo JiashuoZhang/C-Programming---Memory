@@ -22,14 +22,24 @@ void check_heap() {
     if (!temp) return;
     // Check the blocks except the first one if there exists any
     while (temp->next) {
+        // Check addresses in ascending order
         assert(prevAddr < (uintptr_t)temp);
-        assert(temp->size > 0);
+        // Check sizes greater than threshold value
         assert(temp->size >= TH);
+        // Check blocks do not overlap or touch each other
         assert(((uintptr_t)temp + temp->size) < (uintptr_t)temp->next);
+        // Check the blocks aligned by a multiple of 16
+        assert((uintptr_t)temp % 16 == 0);
+        // Check the block size aligned by a multiple of 16
+        assert(temp->size % 16 == 0);
+
+        // Previous block's address
         prevAddr = (uintptr_t)temp;
         temp = temp->next;
     }
-    // Check the last block
-    assert(temp->size > 0);
+    // Check the last block or this is the only block existing
+    assert(temp->size >= TH);
+    assert(temp->size % 16 == 0);
+    assert((uintptr_t)temp % 16 == 0);
     assert((uintptr_t)temp->next == 0);
 }

@@ -21,8 +21,8 @@ void print_heap() {
     int num = 1;
 
     while (temp) {
-        printf("%lu %lu ", temp, temp->size);
-        printf("%lu %lu\n", temp->next, num++);
+        printf("%p %lu ", temp, temp->size);
+        printf("%p %d\n", temp->next, num++);
         temp = temp->next;
     }
 }

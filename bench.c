@@ -51,6 +51,12 @@ int main(int argc, char** argv) {
 
     // Client pointers
     uintptr_t* blockInUse = (uintptr_t*)malloc(ntrials * sizeof(uintptr_t));
+
+    if (!blockInUse) {
+        printf("Error: Unable to allocate memory.\n");
+        exit(1);
+    }
+    
     // Client tracker
     int clientIndex = 0;
 

@@ -101,6 +101,10 @@ void* getmem(uintptr_t size) {
 // Create new block, update pointers
 FreeBlock* create(FreeBlock* block, uintptr_t size) {
     block = (FreeBlock*)malloc(size);
+    if (!block) {
+        printf("Error: Unable to allocate memory.\n");
+        exit(1);
+    }
     block->size = size;
     block->next = NULL;
     totalSize += size;

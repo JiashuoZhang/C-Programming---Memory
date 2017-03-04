@@ -22,7 +22,8 @@ void print_heap(FILE* f) {
     int num = 1;
 
     while (temp) {
-        fprintf(f, "%p %6p %9p %3d\n", temp, (void*)temp->size, temp->next, num++);
+        fprintf(f, "%p %6p %9p %3d\n",
+               temp, (void*)temp->size, temp->next, num++);
         temp = temp->next;
     }
 }

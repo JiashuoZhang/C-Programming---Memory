@@ -30,13 +30,14 @@ int main(int argc, char** argv) {
     double cpu_time_used;
 
     // ntrials, pctget, pctlarge, small_limit, large_limit, random_seed
-    long testControl[] = {0, NTRIALS, PCTGET, PCTLARGE, SMALL, LARGE, time(NULL)};
+    uintptr_t testControl[] = {0, NTRIALS, PCTGET, PCTLARGE, SMALL, LARGE,
+                               time(NULL)};
 
     // Update default values based on user input
     for (int i = 1; i < argc; i++) {
         testControl[i] = atoi(argv[i]);
     }
-    
+
     // Create local variables for easy reading purpose
     int ntrials = testControl[1];
     int pctget = testControl[2];
@@ -61,12 +62,12 @@ int main(int argc, char** argv) {
 
     printf("CPU_T  Total_Size  Blocks_Num       Avg_Size\n");
     for (int i = 1; i <= ntrials; i++) {
-        
         // Do getmem
         if ((rand() % 100) < pctget) {
             // Get a large block based on pctlarge
             if (rand() % 100 < pctlarge) {
-                blockInUse[clientIndex] = (uintptr_t)getmem(rand() % largeLimit + 1);
+                blockInUse[clientIndex] = (uintptr_t)getmem(rand() %
+                                                     largeLimit + 1);
                 clientIndex++;
             // Get a small block
             } else {
@@ -84,20 +85,22 @@ int main(int argc, char** argv) {
                 clientIndex--;
             }
         }
-        
+
         // Print stats to stdout
         if (ntrials > 10 && i % printInformation == 0 && i <= ntrials_round) {
             end = clock();
             cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
             get_mem_stats(&totalSize, &totalFree, &nFreeBlocks);
-            printf("%6.3f %10lu %11lu %14.2f\n", 
-                cpu_time_used, totalSize, nFreeBlocks, (float)totalFree/nFreeBlocks);
+            printf("%6.3f %10lu %11lu %14.2f\n",
+                cpu_time_used, totalSize, nFreeBlocks,
+                    (float)totalFree/nFreeBlocks);
         } else if (ntrials <= 10) {
             end = clock();
             cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
             get_mem_stats(&totalSize, &totalFree, &nFreeBlocks);
-            printf("%6.3f %10lu %11lu %14.2f\n", 
-                cpu_time_used, totalSize, nFreeBlocks, (float)totalFree/nFreeBlocks);
+            printf("%6.3f %10lu %11lu %14.2f\n",
+                cpu_time_used, totalSize, nFreeBlocks,
+                    (float)totalFree/nFreeBlocks);
         }
     }
     return 0;

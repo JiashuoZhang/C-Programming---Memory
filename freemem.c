@@ -78,7 +78,7 @@ void freemem(void* p) {
             pHead->size = pHead->size + temp->next->size;
             temp->next = pHead;
             goto END;
-        // Current address to big, continue searching
+        // Current address too big, continue searching
         // Current block needs to be inserted here, stop searching
         } else if (pHead < temp->next) {
             break;
